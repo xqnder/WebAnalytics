@@ -25,6 +25,9 @@ class Site( Base ):
     name = Column( Text, unique=True )
     visits = Column( Integer, default=0 )
 
-    def __init__( self, name, data ):
+    def __init__( self, name, visits ):
         self.name = name
-        self.data = data
+        self.visits = visits
+
+    def __str__( self ):
+        return 'ID: ' + str( self.id ) + '\tName: ' + self.name + '\tNumber of visits: ' + str( self.visits )
