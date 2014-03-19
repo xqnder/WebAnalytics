@@ -11,11 +11,7 @@ from pyramid.paster import (
 
 from pyramid.scripts.common import parse_vars
 
-from ..models import (
-    DBSession,
-    Page,
-    Base,
-    )
+from ..models import DBSession, Site, Base
 
 
 def usage(argv):
@@ -25,7 +21,8 @@ def usage(argv):
     sys.exit(1)
 
 
-def main(argv=sys.argv):
+def main( argv=sys.argv ):
+
     if len(argv) < 2:
         usage(argv)
     config_uri = argv[1]
@@ -35,6 +32,7 @@ def main(argv=sys.argv):
     engine = engine_from_config(settings, 'sqlalchemy.')
     DBSession.configure(bind=engine)
     Base.metadata.create_all(engine)
+
     with transaction.manager:
-        model = Page('FrontPage', 'This is the front page')
+        model = Site('Google', 0)
         DBSession.add(model)
