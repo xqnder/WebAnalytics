@@ -4,6 +4,10 @@
   <title>Site statistics</title>
 </head>
 
+<body>
+
+<h1>Site statistics</h1>
+
 <table>
 
 <thead class="person">
@@ -31,5 +35,5 @@
 </tbody>
 
 </table>
-
+</body>
 </html>

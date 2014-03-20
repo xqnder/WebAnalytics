@@ -22,6 +22,8 @@ def main(global_config, **settings):
 
     config.add_route('view_sites', '/sites')
     config.add_route('increment_count', '/sites/{address}/visits')
+    config.add_route('register_visits', '/visits')
+    config.add_route('test_counting', '/test_counting')
 
     config.scan()
 
