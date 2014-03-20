@@ -17,24 +17,6 @@ def view_sites(request):
         'sites': sites
     }
 
-@view_config( route_name='increment_count' )
-def increment_count( request ):
-    """
-    "/sites/123/visits registers a visit to site 123." - Phase 1
-    """
-
-    site_address = request.matchdict['address']
-    site = DBSession.query( Site ).filter_by( address=site_address ).first()
-    if site:
-        # we are already tracking this site, just increment the counter:
-        site.visits += 1
-    else:
-        # we should add a new Site object
-        site = Site( site_address, 1, 0 )
-        DBSession.add( site )
-
-    return Response('Counted a visit to ' + site_address)
-
 @view_config( route_name='register_visits' )
 def register_visits( request ):
     """
@@ -44,17 +26,19 @@ def register_visits( request ):
     - Visit duration: Your service should track the average visit duration for each page that it tracks.
     """
 
-    visit = request.GET['visit']
-    site = DBSession.query( Site ).filter_by( address=visit ).first()
-    if site:
-        # we are already tracking this site, just increment the counter:
-        site.visits += 1
-    else:
-        # we should add a new Site object
-        site = Site( visit, 1, 0 )
-        DBSession.add( site )
+    visit = {
+        'origin': request.GET['origin'],
+        'path': request.GET['path'],
+        'duration': float( request.GET['duration'] )
+    }
 
-    return Response('Counted a visit to ' + visit)
+    site = DBSession.query( Site ).filter_by( address=visit['origin'] + visit['path'] ).first()
+    if not site:
+        site = Site( visit['origin'], visit['path'] )
+    site.count_visit( visit['duration'] )
+    DBSession.add( site )
+
+    return Response('Counted a visit to ' + visit['origin'] + visit['path'])
 
 @view_config( route_name='test_counting', renderer='test_counting.mako' )
 def test_counting( request ):
@@ -65,4 +49,4 @@ def test_counting( request ):
     - Visit duration: Your service should track the average visit duration for each page that it tracks.
     """
 
-    return {}
+    return { 'request': request }

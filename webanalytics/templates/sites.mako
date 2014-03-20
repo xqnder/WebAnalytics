@@ -18,6 +18,7 @@
         <th>Total visit time</th>
         <th>Child visits</th>
         <th>Total child visit time</th>
+        <th>Parent</th>
     </tr>
 </thead>
 
@@ -30,6 +31,7 @@
             <td>${ site.total_visit_time }</td>
             <td>${ site.child_visits }</td>
             <td>${ site.total_child_visit_time }</td>
+            <td>${ site.parent_address }</td>
         </tr>
     % endfor
 </tbody>

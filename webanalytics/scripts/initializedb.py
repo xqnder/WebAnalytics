@@ -33,5 +33,5 @@ def main( argv=sys.argv ):
     Base.metadata.create_all( engine )
 
     with transaction.manager:
-        model = Site( 'Google', 0, 0.0 )
+        model = Site( 'https://www.google.nl/docs', '' )
         DBSession.add( model )
