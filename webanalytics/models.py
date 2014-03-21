@@ -27,6 +27,9 @@ class Site( Base ):
     total_child_visit_time = Column( Float, default=0.0 )
 
     def __init__( self, origin, pathname ):
+        """
+        Let's be safe and initialize all fields on the model.
+        """
         self.address = origin + pathname
         self.parent_address = ''
 
@@ -36,14 +39,20 @@ class Site( Base ):
         self.total_child_visit_time = 0.0
 
         if pathname:
+            # Then there is a "parent" site, a page which is higher in the hierarchy on a certain domain. For counting
+            # hierarchical page visits, it is useful that every page knows it's parent page:
             self.parent_address = origin + pathname.rsplit( '/', 1)[0]
             parent = DBSession.query( Site ).filter_by( address=self.parent_address ).first()
             if not parent:
+                # The parent page was not initialized (visited) yet, so we initialize it now
                 parent = Site( origin, pathname.rsplit( '/', 1)[0] )
                 DBSession.add( parent )
 
     def count_visit( self, total_visit_time ):
-
+        """
+        Increments the visits counter and the total visit time, and if this site has a parent, we increment that one
+        too.
+        """
         self.visits += 1
         self.total_visit_time += total_visit_time
         if self.parent_address:
@@ -51,6 +60,10 @@ class Site( Base ):
             parent.count_child_visit( total_visit_time )
 
     def count_child_visit(self, total_visit_time ):
+        """
+        This is a separate method, because counting the visit of a child site means adding the data to different fields.
+        For the rest the same functionality as count_visit.
+        """
         self.child_visits += 1
         self.total_child_visit_time += total_visit_time
         if self.parent_address:

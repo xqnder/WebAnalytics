@@ -23,9 +23,6 @@ def main(global_config, **settings):
     config.add_route('view_sites', '/sites')
     config.add_route('register_visits', '/visits')
     config.add_route('test_counting', '/test_counting/*params')
-    # config.add_route('test_counting', '/test_counting/{a}')
-    # config.add_route('test_counting', '/test_counting/{a}/{b}')
-    # config.add_route('test_counting', '/test_counting/{a}/{b}/{c}')
 
     config.scan()
 

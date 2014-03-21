@@ -8,7 +8,7 @@ from .models import DBSession, Site
 @view_config( route_name='view_sites', renderer='sites.mako' )
 def view_sites(request):
     """
-    "listing the identifier numbers of visited sites and the number of visits to each site."
+    'listing the identifier numbers of visited sites and the number of visits to each site.'
     """
 
     sites = DBSession.query( Site ).all()
@@ -21,9 +21,11 @@ def view_sites(request):
 def register_visits( request ):
     """
     Addressing:
-    - JavaScript snippet: You should provide a JavaScript snippet that can be inserted into any webpage to notify the
+    '- JavaScript snippet: You should provide a JavaScript snippet that can be inserted into any webpage to notify the
     service of visits automatically. (We will give you an example of a suitable snippet.)
-    - Visit duration: Your service should track the average visit duration for each page that it tracks.
+    - Visit duration: Your service should track the average visit duration for each page that it tracks.'
+
+    In this view, we receive the data from the JS snippet's GET and update our models appropriately
     """
 
     visit = {
@@ -44,9 +46,11 @@ def register_visits( request ):
 def test_counting( request ):
     """
     Addressing:
-    - JavaScript snippet: You should provide a JavaScript snippet that can be inserted into any webpage to notify the
+    '- JavaScript snippet: You should provide a JavaScript snippet that can be inserted into any webpage to notify the
     service of visits automatically. (We will give you an example of a suitable snippet.)
-    - Visit duration: Your service should track the average visit duration for each page that it tracks.
+    - Visit duration: Your service should track the average visit duration for each page that it tracks.'
+
+    In this view, we actually load the JS snippet to track the data.
     """
 
     return { 'request': request }
