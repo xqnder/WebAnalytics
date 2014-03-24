@@ -34,7 +34,9 @@ def register_visits( request ):
         'duration': float( request.GET['duration'] )
     }
 
+    # SQLAlchemy SQLescapes everything automatically
     site = DBSession.query( Site ).filter_by( address=visit['origin'] + visit['path'] ).first()
+
     if not site:
         site = Site( visit['origin'], visit['path'] )
     site.count_visit( visit['duration'] )
@@ -53,4 +55,4 @@ def test_counting( request ):
     In this view, we actually load the JS snippet to track the data.
     """
 
-    return { 'request': request }
+    return {}

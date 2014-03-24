@@ -28,6 +28,8 @@ class Site( Base ):
 
     def __init__( self, origin, pathname ):
         """
+        A model will only be initialized if it is directly created. It does not come through this function when it is
+        pulled from the database.
         Let's be safe and initialize all fields on the model.
         """
         self.address = origin + pathname
